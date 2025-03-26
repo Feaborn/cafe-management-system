@@ -1,0 +1,45 @@
+<h1>Список заказов</h1>
+
+<!-- Ссылка на страницу выручки -->
+<a href="{% url 'revenue_report' %}">Отчет о выручке</a>
+
+<!-- Форма поиска -->
+<form method="get" action="{% url 'order_list' %}">
+    {{ search_form.as_p }}
+    <button type="submit">Поиск</button>
+</form>
+
+<!-- Ссылка для создания нового заказа -->
+<a href="{% url 'order_create' %}">Создать новый заказ</a>
+
+<!-- Таблица с заказами -->
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Номер стола</th>
+        <th>Блюда</th>
+        <th>Общая стоимость</th>
+        <th>Статус</th>
+        <th>Действия</th>
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.table_number }}</td>
+        <td>
+            <ul>
+                {% for dish in order.dishes.all %}
+                <li>{{ dish.name }} - {{ dish.price }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td>{{ order.total_price }}</td>
+        <td>{{ order.get_status_display }}</td>
+        <td>
+            <a href="{% url 'order_detail' order.pk %}">Просмотр</a>
+            <a href="{% url 'order_update' order.pk %}">Редактировать</a>
+            <a href="{% url 'order_delete' order.pk %}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

@@ -1,0 +1,14 @@
+<h1>Детали заказа</h1>
+<p><strong>ID заказа:</strong> {{ order.id }}</p>
+<p><strong>Номер стола:</strong> {{ order.table_number }}</p>
+<p><strong>Статус:</strong> {{ order.get_status_display }}</p>
+<p><strong>Общая стоимость:</strong> {{ order.total_price }}</p>
+
+<h2>Блюда:</h2>
+<ul>
+    {% for dish in order.dishes.all %}
+    <li>{{ dish.name }} - {{ dish.price }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'order_list' %}">Назад к списку заказов</a>

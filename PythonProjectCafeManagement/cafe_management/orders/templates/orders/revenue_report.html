@@ -1,0 +1,34 @@
+<h1>Отчет о выручке</h1>
+
+<!-- Ссылка для возврата к списку заказов -->
+<a href="{% url 'order_list' %}">Назад к списку заказов</a>
+
+<!-- Общая выручка -->
+<p><strong>Общая выручка:</strong> {{ total_revenue }}</p>
+
+<!-- Список оплаченных заказов -->
+<h2>Оплаченные заказы:</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Номер стола</th>
+        <th>Блюда</th>
+        <th>Общая стоимость</th>
+        <th>Статус</th>
+    </tr>
+    {% for order in paid_orders %}
+    <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.table_number }}</td>
+        <td>
+            <ul>
+                {% for dish in order.dishes.all %}
+                <li>{{ dish.name }} - {{ dish.price }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td>{{ order.total_price }}</td>
+        <td>{{ order.get_status_display }}</td>
+    </tr>
+    {% endfor %}
+</table>
